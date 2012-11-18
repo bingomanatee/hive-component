@@ -5,7 +5,7 @@ var Tags = require("./../test_resources/tags");
 var _DEBUG = true;
 var util = require('util');
 
-if (false) tap.test('configuration', function (t) {
+if (1) tap.test('configuration', function (t) {
 
 	hc({}, {a: 1, b: 2}, function (err, h) {
 
@@ -24,7 +24,7 @@ if (false) tap.test('configuration', function (t) {
 
 })
 
-if (false) tap.test('configuration with path', function (t) {
+if (1) tap.test('configuration with path', function (t) {
 	hc({}, path.resolve(__dirname, '../test_resources/hc/config.json'), function (err, h) {
 		if (err) {
 			throw err;
@@ -40,7 +40,7 @@ if (false) tap.test('configuration with path', function (t) {
 	});
 })
 
-if (false) tap.test('init', function (t) {
+if (1) tap.test('init', function (t) {
 
 	hc({}, {a: 1, b: 2}, function (err, hc) {
 		t.equals(hc.get_config('a'), 1, 'init - a is 1');
@@ -83,3 +83,27 @@ tap.test('tags', function (t) {
 			});
 		}) // end test
 });
+
+tap.test('array configs and mixins', function (t) {
+
+	hc([
+		{foo: function () {
+			return 2;
+		}},
+		{foo: function () {
+			return 3
+		}}
+	],
+		[
+			{a: 1},
+			{a: 2}
+		],
+		function (err, comp) {
+			t.equals(comp.get_config('a'), 1, 'a is 1');
+			t.equals(comp.foo(), 2, 'foo() returns 2');
+
+			t.end();
+		}
+	)
+
+})
