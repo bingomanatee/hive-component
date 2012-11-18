@@ -69,8 +69,6 @@ if (false) tap.test('init', function (t) {
 tap.test('tags', function (t) {
 	Tags(['foo', 'bar'],
 		function (err, tags) {
-			console.log('tags object: %s', util.inspect(tags, false, 4));
-			console.log('init tasks: %s', util.inspect(tags.get_config('init_tasks')));
 			tags.init(function () {
 				t.ok(tags.has('foo'), 'tags has foo');
 
