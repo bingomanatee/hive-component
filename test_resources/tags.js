@@ -2,7 +2,7 @@ var hc = require('./../index');
 var config = require('hive-configuration');
 var _ = require('underscore');
 var util = require('util');
-var _DEBUG  = true;
+var _DEBUG = true;
 
 var _mixins = {
 	add_tags: function (tags) {
@@ -12,7 +12,7 @@ var _mixins = {
 	},
 
 	add_tag: function (tag) {
-		if (!tag){
+		if (!tag) {
 			throw new Error('trying to add nothing')
 		}
 		if (!_.isString(tag)) {
@@ -27,7 +27,7 @@ var _mixins = {
 	},
 
 	remove_tag: function (tag) {
-		if (!tag){
+		if (!tag) {
 			throw new Error('trying to remove nothing')
 		}
 		if (!_.isString(tag)) {
@@ -36,16 +36,14 @@ var _mixins = {
 		this._tags.remove(tag);
 	},
 
-	has: function(tag){
-		if (!tag){
+	has: function (tag) {
+		if (!tag) {
 			throw new Error('trying to test nothing')
 		}
 		if (!_.isString(tag)) {
 			throw new Error('attempt to test non-string tag: %s', util.inspect(tag));
 		}
 
-		console.log('has: this %s', util.inspect(this));
-		console.log('has: _tags: %s', util.inspect(this._tags));
 		return this._tags.has(tag);
 	}
 }
@@ -55,16 +53,13 @@ module.exports = function (tags, cb) {
 		tags = [];
 	}
 
-	var mixins = {
-		_init_tasks: [function(cb){
+	return hc(_mixins, {
+		tags:       new config(),
+		init_tasks: [function (cb) {
+			console.log('init_tasks')
 			this._tags = new config();
-			console.log(' _init_tasks this: %s', util.inspect(this));
-			console.log('adding tags %s', util.inspect(tags));
-		this.add_tags(tags);
+			this.add_tags(tags);
 			cb();
-	}]}
-
-	_.defaults(mixins, _mixins);
-
-	return hc(mixins, {tags: new config()}, cb);
+		}]
+	}, cb);
 }

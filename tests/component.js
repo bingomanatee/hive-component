@@ -64,22 +64,24 @@ if (false) tap.test('init', function (t) {
 		)
 	})
 })
-var tags = Tags(['foo', 'bar']);
 //	console.log('tags: %s', util.inspect(tags));
 
-tags.init(function(){
+tap.test('tags', function (t) {
+	Tags(['foo', 'bar'],
+		function (err, tags) {
+			console.log('tags object: %s', util.inspect(tags, false, 4));
+			console.log('init tasks: %s', util.inspect(tags.get_config('init_tasks')));
+			tags.init(function () {
+				t.ok(tags.has('foo'), 'tags has foo');
 
-	tap.test('tags', function (t) {
+				t.ok(!tags.has('zoo'), 'tags does not have zoo');
+				t.deepEqual(tags.tags(), ['bar', 'foo'], 'manifest of tags 1')
+				tags.add_tag('zoo');
+				t.ok(tags.has('zoo'), 'tags does not have zoo');
 
-	t.ok(tags.has('foo'), 'tags has foo');
+				t.deepEqual(tags.tags(), ['bar', 'foo', 'zoo'], 'manifest of tags 2');
 
-	t.ok(!tags.has('zoo'), 'tags does not have zoo');
-	t.deepEqual(tags.tags(), ['bar', 'foo'], 'manifest of tags 1')
-	//t.add('zoo');
-//	t.ok(tags.has('zoo'), 'tags does not have zoo');
-
-	//t.deepEqual(tags.tags(), ['bar', 'foo', 'zoo'], 'manifest of tags 2');
-
-	t.end();
-	}) // end test
+				t.end();
+			});
+		}) // end test
 });
