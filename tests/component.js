@@ -35,6 +35,7 @@ if (1) tap.test('configuration with path', function (t) {
 		}
 
 		if (err) console.log(err);
+		t.ok(h.has_config('a'), "component has an a config");
 		t.equals(h.get_config('a'), 2, 'JSON: a is 2')
 		t.end();
 	});
