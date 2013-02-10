@@ -1,13 +1,13 @@
 {
 	"name":         "hive-component",
-	"version":      "0.0.1",
+	"version":      "0.0.1a",
 	"private":      false,
 	"scripts":      {
 		"start": "node index"
 	},
 	"dependencies": {
 		"underscore":         ">=1.4.2",
-		"hive-configuration": "*",
+		"hive-configuration": ">=0.0.1a",
 		"tap":                "*",
 		"gate":               "*",
 		"async":              "*"
